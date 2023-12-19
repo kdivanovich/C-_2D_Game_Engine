@@ -5,10 +5,8 @@
 #define pr std::cout 
 #define el std::endl
 
-//SDL_Texture* playerTex;
-//SDL_Rect srcR, destR; 
-
 GameObject* player;
+GameObject* enemy;
 
 Game::Game()
 {}
@@ -24,7 +22,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 		pr << "Subsystems initialized." << el;
 
-		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);		// Game Window (boundaries)
 		if (window)	{
 			pr << "Window created." << el;
 		}
@@ -42,8 +40,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;		// was removed?
 	}
 
-	//playerTex = TextureManager::LoadTexture("assets/player.png", renderer);
-	player = new GameObject("assets/player.png", renderer);
+	player = new GameObject("assets/player.png", renderer, 0, 0);
+	enemy =  new GameObject("assets/enemy.png", renderer, 64, 64);
 }
 
 void Game::handleEvents() {
@@ -63,21 +61,16 @@ void Game::update()
 {
 	cnt++;
 
-	//// Set destination rectangle size:
-	//destR.h = 64;
-	//destR.w = 64; 
-
-	//destR.x = cnt;	// Move to the right 1 pixel at a time
-
 	player->Update();
+	enemy->Update();
 
 	pr << cnt << el;
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-	//SDL_RenderCopy(renderer, playerTex, NULL, &destR);	// 1st rect = use entire image, destR = draw the render frame
 	player->Render();
+	enemy->Render();
 	SDL_RenderPresent(renderer);	
 }
 
