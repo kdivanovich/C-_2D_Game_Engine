@@ -8,6 +8,8 @@
 GameObject* player;
 GameObject* enemy;
 
+SDL_Renderer* Game::renderer = nullptr;		// set to nullptr because we haven't initialised SDL yet
+
 Game::Game()
 {}
 Game::~Game()
@@ -40,8 +42,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = false;		// was removed?
 	}
 
-	player = new GameObject("assets/player.png", renderer, 0, 0);
-	enemy =  new GameObject("assets/enemy.png", renderer, 64, 64);
+	player = new GameObject("assets/player.png", 0, 0);
+	enemy =  new GameObject("assets/enemy.png", 64, 64);
 }
 
 void Game::handleEvents() {

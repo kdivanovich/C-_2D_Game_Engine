@@ -22,12 +22,13 @@ public:
 	void render();
 	void clean();							// memory management
 
+	static SDL_Renderer* renderer;			// make it globally available as passing it as a private var creates copies
+
 	bool running() { return isRunning; }	// inline func; let the main func know the game's still running
 
 private:
-	int cnt;
+	int cnt = 0;
 	bool isRunning;
 	SDL_Window* window;
-	SDL_Renderer* renderer;
 };
 
