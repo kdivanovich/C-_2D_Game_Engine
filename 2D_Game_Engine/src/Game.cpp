@@ -1,12 +1,14 @@
 #include "Game.h"
-#include "TextureManager.h"""
+#include "TextureManager.h"
 #include "GameObject.h"
+#include "Map.h"
 
 #define pr std::cout 
 #define el std::endl
 
 GameObject* player;
 GameObject* enemy;
+Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;		// set to nullptr because we haven't initialised SDL yet
 
@@ -44,6 +46,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	player = new GameObject("assets/player.png", 0, 0);
 	enemy =  new GameObject("assets/enemy.png", 64, 64);
+	map = new Map();
 }
 
 void Game::handleEvents() {
@@ -71,6 +74,7 @@ void Game::update()
 
 void Game::render() {
 	SDL_RenderClear(renderer);
+	map->DrawMap();				// draw first else it doesn't draw it all 
 	player->Render();
 	enemy->Render();
 	SDL_RenderPresent(renderer);	
