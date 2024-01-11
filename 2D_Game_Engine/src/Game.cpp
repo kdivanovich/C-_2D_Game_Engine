@@ -1,30 +1,29 @@
 #include "Game.h"
 #include "TextureManager.h"
-#include "GameObject.h"
 #include "Map.h"
-
-#include "ECS.h"
-#include "Components.h"
+#include "ECS/Components.h"
+#include "Vector2D.h"
 
 #define pr std::cout 
 #define el std::endl
 
-GameObject* player;
-GameObject* enemy;
+
 Map* map;
+Manager manager;
 
 SDL_Renderer* Game::renderer = nullptr;		// set to nullptr because we haven't initialised SDL yet
 
-Manager manager;
-auto& newPlayer(manager.addEntity());
+auto& player(manager.addEntity());
 
 Game::Game()
 {}
 Game::~Game()
 {}
 
-void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
+void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) 
+{
 	int flags = 0; 
+
 	if (fullscreen) {
 		flags = SDL_WINDOW_FULLSCREEN;
 	}
@@ -47,15 +46,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		isRunning = true;
 	}
 	else {
-		isRunning = false;		// was removed?
+		isRunning = false;		
 	}
 
-	player = new GameObject("assets/player.png", 0, 0);
-	enemy =  new GameObject("assets/enemy.png", 64, 64);
 	map = new Map();
 
-	newPlayer.addComponent<PositionComponent>();
-	newPlayer.getComponent<PositionComponent>().setPos(1500, 4500);
+	player.addComponent<TransformComponent>();
+	player.addComponent<SpriteComponent>("assets/player.png");
 }
 
 void Game::handleEvents() {
@@ -72,23 +69,25 @@ void Game::handleEvents() {
 }
 
 void Game::update()
-{
-	cnt++;
-
-	player->Update();
-	enemy->Update();
+{	
+	manager.refresh();
 	manager.update();
-	pr << newPlayer.getComponent<PositionComponent>().x() << ", " <<
-		newPlayer.getComponent<PositionComponent>().y() << el;
+	player.getComponent<TransformComponent>().position.Add(Vector2D(5, 0));
 
+	// Test the texture swapping func:
+	if (player.getComponent<TransformComponent>().position.x > 100)		// was made public to assign/get a val w/o a func call
+	{
+		player.getComponent<SpriteComponent>().setTex("assets/enemy.png");
+	}
+	
+	//cnt++;
 	//pr << cnt << el;			// print to test if it works
 }
 
 void Game::render() {
 	SDL_RenderClear(renderer);
 	map->DrawMap();				// draw first else it doesn't draw it all 
-	player->Render();
-	enemy->Render();
+	manager.draw();
 	SDL_RenderPresent(renderer);	
 }
 
