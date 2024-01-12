@@ -12,6 +12,7 @@ Map* map;
 Manager manager;
 
 SDL_Renderer* Game::renderer = nullptr;		// set to nullptr because we haven't initialised SDL yet
+SDL_Event Game::event;
 
 auto& player(manager.addEntity());
 
@@ -53,10 +54,11 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 	player.addComponent<TransformComponent>();
 	player.addComponent<SpriteComponent>("assets/player.png");
+	player.addComponent<KeyboardController>();
 }
 
-void Game::handleEvents() {
-	SDL_Event event;
+void Game::handleEvents() 
+{
 	SDL_PollEvent(&event);
 	
 	switch(event.type) {
@@ -72,16 +74,6 @@ void Game::update()
 {	
 	manager.refresh();
 	manager.update();
-	player.getComponent<TransformComponent>().position.Add(Vector2D(5, 0));
-
-	// Test the texture swapping func:
-	if (player.getComponent<TransformComponent>().position.x > 100)		// was made public to assign/get a val w/o a func call
-	{
-		player.getComponent<SpriteComponent>().setTex("assets/enemy.png");
-	}
-	
-	//cnt++;
-	//pr << cnt << el;			// print to test if it works
 }
 
 void Game::render() {

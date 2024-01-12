@@ -21,10 +21,10 @@ public:
 	void update();
 	void render();
 	void clean();							// memory management
+	bool running() { return isRunning; }	// inline func; let the main func know the game's still running
 
 	static SDL_Renderer* renderer;			// make it globally available as passing it as a private var creates copies
-
-	bool running() { return isRunning; }	// inline func; let the main func know the game's still running
+	static SDL_Event event;
 
 private:
 	int cnt = 0;
