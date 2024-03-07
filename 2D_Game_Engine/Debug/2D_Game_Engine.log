@@ -1,4 +1,2 @@
-﻿  Game.cpp
-D:\WorkspaceC\SDL2_project\2D_Game_Engine - Textures\2D_Game_Engine\src\ECS\KeyboardController.h(3,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-D:\WorkspaceC\SDL2_project\2D_Game_Engine - Textures\2D_Game_Engine\src\ECS\KeyboardController.h(4,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+﻿  Vector2D.cpp
   2D_Game_Engine.vcxproj -> D:\WorkspaceC\SDL2_project\2D_Game_Engine - Textures\Debug\2D_Game_Engine.exe

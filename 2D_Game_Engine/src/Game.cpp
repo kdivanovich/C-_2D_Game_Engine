@@ -87,6 +87,7 @@ void Game::update()
 	{
 		pr << "Wall hit!" << el;
 		player.getComponent<TransformComponent>().scale = 1;
+		player.getComponent<TransformComponent>().velocity * -1;	// revert the player 
 		pr << "Scale: " << player.getComponent<TransformComponent>().scale << el;
 	}
 }
